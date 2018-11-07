@@ -1,0 +1,99 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+int data;
+struct node *next;
+struct node *child;
+};
+struct node *start=NULL;
+int a[1000]={0};
+struct node *insert(struct node *start);
+struct node *insert_child(struct node *ptr);
+struct node *display(struct node *start);
+int main(void)
+{printf("form the first level list\n");
+while(1)
+{int n;
+printf("enter 1 to insert\nenter 2 to display\nenter 3 to break");
+scanf("%d",&n);
+if(n==1)
+start=insert(start);
+else if(n==2)
+start=display(start);
+else break;
+}printf("form child lists\n");int p,i;
+while(1)
+{
+printf("enter no. of parents\n");
+scanf("%d",&p);
+if(!p)break;
+for(i=0;i<p;i++)
+scanf("%d",&a[i]);
+struct node *ptr=start;p;
+//display(start);
+struct node *pptr;int pt=0;
+while(pt<p)
+{
+while(ptr->data!=a[pt])ptr=ptr->next;
+pptr=ptr;ptr=ptr->child;
+printf("pptr data%d\n",pptr->data);
+pt++;
+}
+int n;
+
+while(1)
+{scanf("%d",&n);
+if(n==0)
+break;
+pptr=insert_child(pptr);
+}
+
+}
+//printf("***");
+display_list(start);
+
+}
+struct node *insert(struct node *start)
+{int val;
+struct node *newnode=(struct node *)malloc(sizeof(struct node));
+printf("enter data\n");
+scanf("%d",&val);newnode->data=val;
+if(!start)
+start=newnode,newnode->next=NULL;
+else
+newnode->next=start,start=newnode;
+newnode->child=NULL;
+return start;
+}
+struct node  *display(struct node *start)
+{struct node *ptr=start;
+  while(ptr)
+  {
+      printf("%d ",ptr->data);
+      ptr=ptr->next;
+  }
+  printf("\n");
+  return start;
+}
+struct node *insert_child(struct node *pptr)
+{struct node *newnode=(struct node *)malloc(sizeof(struct node));
+printf("enter child node data\n");
+scanf("%d",&newnode->data);
+    if(pptr->child==NULL)
+        pptr->child=newnode,newnode->next=NULL,newnode->child=NULL,pptr=pptr->child;
+    else
+        pptr->next=newnode,pptr=newnode,newnode->next=NULL,newnode->child=NULL;
+
+    return pptr;
+}
+void display_list(struct node *p)
+{if(!p)return;
+    printf("%d ",p->data);
+    if(p->child)
+    display_list(p->child);
+    display_list(p->next);
+
+}
+
+
